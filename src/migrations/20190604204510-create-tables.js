@@ -219,5 +219,8 @@ module.exports = {
       next();
     });
   },
+  down: function(queryInterface){
+    return queryInterface.dropAllTables();
+  },
   info: info,
 };
