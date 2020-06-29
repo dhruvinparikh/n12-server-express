@@ -15,15 +15,15 @@ module.exports = {
           primaryKey: true,
           defaultValue: Sequelize.UUIDV1
         },
-        createdAt: {
+        created_at: {
           type: Sequelize.DATE
         },
-        updatedAt: {
+        updated_at: {
           type: Sequelize.DATE
         },
         name: Sequelize.STRING,
         description: Sequelize.STRING,
-        logoUrl: Sequelize.STRING
+        logo_url: Sequelize.STRING
       });
       
   },

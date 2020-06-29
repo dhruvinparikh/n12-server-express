@@ -15,16 +15,16 @@ module.exports = {
           primaryKey: true,
           defaultValue: Sequelize.UUIDV1
         },
-        createdAt: {
+        created_at: {
           type: Sequelize.DATE
         },
-        updatedAt: {
+        updated_at: {
           type: Sequelize.DATE
         },
         dapp_uuid: Sequelize.UUID,
         name: Sequelize.STRING,
-        shortDescription: Sequelize.STRING,
-        longDescription: Sequelize.STRING
+        short_desc: Sequelize.STRING,
+        long_desc: Sequelize.STRING
       });
       
   },
