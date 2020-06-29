@@ -1,0 +1,107 @@
+{
+  "info": {
+    "_postman_id": "91e0999d-36c5-44ae-83a3-879a986998fe",
+    "name": "nodejs-be-skeleton",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded",
+            "type": "text"
+          },
+          {
+            "key": "",
+            "value": "",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "username",
+              "value": "kpatel",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "kush123",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "localhost:8080/auth/login",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["auth", "login"]
+        },
+        "description": "login"
+      },
+      "response": []
+    },
+    {
+      "name": "getAllUsers",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "cb41a1628de27d24c931aa5e7743b5ed7fab1f65babe7320718026d5136a07dd",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "",
+            "value": "",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "localhost:8080/admin/users",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["admin", "users"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "getuser",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "cb41a1628de27d24c931aa5e7743b5ed7fab1f65babe7320718026d5136a07dd",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/user/",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["user", ""]
+        }
+      },
+      "response": []
+    }
+  ]
+}
