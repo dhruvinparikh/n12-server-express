@@ -16,3 +16,4 @@ docker-compose.override.yml
 # Lock files
 yarn.lock
 package-lock.json
+.env
