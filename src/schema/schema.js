@@ -1,6 +1,9 @@
 const graphql = require('graphql');
 const Dapps = require('../models/dapp');
 const Notifications = require('../models/notification');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+          
 
 const {
   GraphQLObjectType,
@@ -37,6 +40,22 @@ const NotificationType = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
+    search: {
+      type: new GraphQLList(DappType),
+      args: { q: { type: GraphQLString } },
+      resolve(parents, args) {
+        return Dapps.findAll({
+          where: {
+            description: {
+              [Op.like]: '%' + args.q + '%'
+            }
+          }
+        })
+          .then(function (data) {
+            return data;
+          });
+      }
+    },
     dapps: {
       type: new GraphQLList(DappType),
       resolve() {
