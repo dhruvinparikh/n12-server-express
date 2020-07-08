@@ -1,16 +1,15 @@
 const bcrypt = require('bcryptjs');
-const DataLoader = require('dataloader');
 
 const resolvers = {
   Query: {
       async user (root, { id }, { models }) {
-            return models.User.findById(id)
+        return models.User.findById(id)
       },
       async allDApps (root, args, { models }) {
-            return models.DApps.findAll();
+        return models.DApps.findAll();
       },
       async dApps (root, { id }, { models }) {
-            return models.DApps.findById(id)
+        return models.DApps.findById(id)
       },
       async allNotifications (root, args, { models }) {
         return models.Notifications.findAll()
@@ -30,44 +29,19 @@ const resolvers = {
     }
   },
   DApps: {
-    Notifications : async (dapp ) =>  {
-    
+    Notifications : async (dapp, args, {dataloader} ) =>  {    
       console.log(`fetching dapp ${dapp.uuid}`)
-      // batching of a single call 
-      const result = notificationsLoader.load(dapp.uuid);
-      notificationsLoader.clear(dapp.uuid);
+      const result = dataloader.notificationsLoader.load(dapp.uuid);
+      // dataloader.notificationsLoader.clear(dapp.uuid);
       return result;
     }
   },
   Notifications: {
-    DApps : async (notification) => {
-      // return notification.getDApp();
+    DApps : async (notification, args, {models, dataloader}) => {
       console.log(`fetching notification ${notification.dAppUuid}`);
-
-      return models.DApps.findAll({
-        where: { uuid: notification.dAppUuid }
-      })
-      const dappLoader = new DataLoader((dAppUuid) => {
-
-        // find all posts by student ids in one query
-        return models.DApps.findAll({
-          where: { uuid: dAppUuid }
-        })
-      
-          // order of returned array should match the order of studentIds
-          .then(dapps => {
-            const dappsById = dapps.reduce((value, dapp) => {
-              if (!value[dapp.uuid]) value[dapp.uuid] = [];
-              value[dapp.uuid].push(dapp);
-              return value;
-            }, {});
-            return dAppUuid.map(id => {
-              return dappsById[id];
-            });
-          });
-      });  
-      
-      return dappLoader.load(notification.dAppUuid);
+      const result = dataloader.dappsLoader.load(notification.dAppUuid);
+      // dataloader.dappsLoader.clear(notification.dAppUuid);
+      return result;
     }
   }
 }
