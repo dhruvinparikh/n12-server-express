@@ -7,9 +7,6 @@
 
 #### Run auto migration
 
-`./node_modules/.bin/runmigration`
-
-#### Update migrations
-
-``./node_modules/.bin/makemigration`
-`
+```bash
+./node_modules/.bin/runmigration --migrations-path ./src/db/migrations --models-path ./src/db/models/
+```
