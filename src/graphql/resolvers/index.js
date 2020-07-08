@@ -8,14 +8,32 @@ const resolvers = {
       async allDApps (root, args, { models }) {
         return models.DApps.findAll();
       },
-      async dApps (root, { id }, { models }) {
-        return models.DApps.findById(id)
+      async searchDApps (root, args, { models, Op }) {
+        if(!args.searchLike) {
+          return
+        }
+  
+        const options = {
+          where : {
+            [Op.or]: [
+              {name: {[Op.iLike] : `%${args.searchLike}%` }}, 
+              {description: {[Op.iLike] : `%${args.searchLike}%` }}
+            ]
+          }
+        }
+
+        const result = await models.DApps.findAll(options);
+
+        return result;
+      },
+      async dApps (root, { uuid }, { models }) {
+        return models.DApps.findById(uuid)
       },
       async allNotifications (root, args, { models }) {
         return models.Notifications.findAll()
       },
-      async notifcations (root, { id }, { models }) {
-        return models.Notifications.findById(id)
+      async notifcations (root, { uuid }, { models }) {
+        return models.Notifications.findById(uuid)
       }      
     },
 

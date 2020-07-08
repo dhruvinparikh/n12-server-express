@@ -27,6 +27,7 @@ const typeDefs = gql`
   type Query {
     user(id: Int!): User
     allDApps: [DApps!]!
+    searchDApps(searchLike: String!): [DApps!]!
     dApps(uuid: String!): DApps
     allNotifications: [Notifications!]!
     notifcations(uuid: String!): Notifications
