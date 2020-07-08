@@ -11,10 +11,11 @@
     "dataloader": "^2.0.0",
     "graphql": "^14.7.0",
     "pg": "^8.2.1",
+    "pg-hstore": "^2.3.3",
     "sequelize": "^6.3.0"
   },
-
   "devDependencies": {
+    "sequelize-auto-migrations": "blockxlabs/sequelize-auto-migrations#master",
     "sequelize-cli": "^6.2.0"
   },
   "scripts": {
