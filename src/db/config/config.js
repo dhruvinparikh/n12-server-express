@@ -1,6 +1,6 @@
 const vars = {
     development: {
-      DB_NAME: 'sfac_database_development',
+      DB_NAME: 'n12dev',
       DB_HOST: 'localhost',
       DB_USER: 'postgres',
       DB_DIALECT: 'postgres',
@@ -8,7 +8,7 @@ const vars = {
       CORS_ORIGIN: '*'
     },
     test: {
-      DB_NAME: 'testdb',
+      DB_NAME: 'database_test',
       DB_HOST: 'localhost',
       DB_USER: 'postgres',
       DB_DIALECT: 'postgres',
@@ -16,7 +16,7 @@ const vars = {
       CORS_ORIGIN: ['http://localhost:8080']
     },
     production: {
-      DB_NAME: 'testdb',
+      DB_NAME: 'database_production',
       DB_HOST: 'host',
       DB_USER: 'username',
       DB_DIALECT: 'postgres',
