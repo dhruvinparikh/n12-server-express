@@ -6,7 +6,7 @@ const dataloader = require('./dataloaders');
 const { Op } = require("sequelize");
 
 const server = new ApolloServer({
-  cors: false, 
+  cors: true, 
   typeDefs,
   resolvers,
   context: { models, Op, dataloader },

@@ -9,10 +9,6 @@ const resolvers = {
         return models.DApps.findAll();
       },
       async searchDApps (root, args, { models, Op }) {
-        if(!args.searchLike) {
-          return
-        }
-  
         const options = {
           where : {
             [Op.or]: [
