@@ -42,6 +42,7 @@ const resolvers = {
       })
     }
   },
+
   DApps: {
     Notifications : async (dapp, args, {dataloader} ) =>  {    
       console.log(`fetching dapp ${dapp.uuid}`)
