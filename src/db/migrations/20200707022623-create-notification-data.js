@@ -5,6 +5,7 @@ module.exports = {
       notification_uuid: {
         allowNull: false,
         type: Sequelize.UUID,
+        primaryKey: true,
       },
       data: {
         allowNull: true,
@@ -12,7 +13,8 @@ module.exports = {
       },
       block_number: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        primaryKey: true
       },
       created_at: {
         allowNull: false,

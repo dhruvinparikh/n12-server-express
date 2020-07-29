@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     notificationUuid: {
       type: DataTypes.UUID,
       allowNull: false,
-      field:"notification_uuid"
+      field:"notification_uuid",
+      primaryKey:true
     },
     data: {
       type: DataTypes.JSONB,
@@ -26,7 +27,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     blockNumber: {
       type: DataTypes.BIGINT,
-      allowNull: false
+      allowNull: false,
+      primaryKey:true
     },
   }, {
     tableName: 'notificationdata',
