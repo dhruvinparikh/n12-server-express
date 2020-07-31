@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const resolvers = {
   Query: {
       async user (root, { id }, { models }) {
-        return models.User.findById(id)
+        return models.User.findByPk(id)
       },
       async allDApps (root, args, { models }) {
         return models.DApps.findAll();
@@ -29,7 +29,7 @@ const resolvers = {
         return models.Notifications.findAll()
       },
       async notifcations (root, { uuid }, { models }) {
-        return models.Notifications.findById(uuid)
+        return models.Notifications.findByPk(uuid)
       }      
     },
 
@@ -40,6 +40,35 @@ const resolvers = {
         email,
         password: await bcrypt.hash(password, 10)
       })
+    },
+    async testEmail(root, { to, apiKey, domain }, { emailUtil }) {
+      const testData = {
+        to,
+        subject: 'TEST',
+        text: 'Testing some Mailgun emails!',
+        template: "test",
+        'h:X-Mailgun-Variables': JSON.stringify({
+          "dAppLogo": "https://s2.coinmarketcap.com/static/img/coins/64x64/1518.png",
+          "dAppName": "MakerDAO",
+          "notifications": [
+            {
+              "name": "Name 3",
+              "shortDesc": "description for Name 3"
+            },
+            {
+              "name": "Name 4",
+              "shortDesc": "description for Name 4"
+            },
+            {
+              "name": "Name 5",
+              "shortDesc": "description for Name 5"
+            }
+          ],
+          "unsubLink": "#"
+        })
+      };
+      await emailUtil.sendEmail(testData, { apiKey, domain });
+      return true;
     }
   },
 
