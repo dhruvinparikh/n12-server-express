@@ -2,11 +2,9 @@ const { gql } = require('apollo-server')
 
 const typeDefs = gql`
   type User {
-    id: Int!
-    name: String!
+    uuid: String!
     email: String!
   }
-
   type DApps {
     uuid: String!
     name: String!
@@ -14,7 +12,6 @@ const typeDefs = gql`
     logoUrl: String!
     Notifications: [Notifications!]
   }
-
   type Notifications {
     uuid: String!
     dAppUuid: String!
@@ -23,7 +20,13 @@ const typeDefs = gql`
     longDescription: String!
     DApps: [DApps!]
   }
-
+  type UserNotifications {
+    uuid: String
+    userUuid: String
+    dAppUuid: String
+    notificationsUuid: String,
+    Notifications: [Notifications]
+  }
   type Query {
     user(id: Int!): User
     allDApps: [DApps!]!
@@ -34,7 +37,8 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createUser(name: String!, email: String!, password: String!): User!
+    createUser(email: String!): User!
+    subscribeNotificcations(email : String!,dAppUuid: String!,selectedNotifications:[String!]): [UserNotifications]
     testEmail(to: String, apiKey: String, domain: String): Boolean!
   }
 `
