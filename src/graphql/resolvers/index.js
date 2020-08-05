@@ -1,5 +1,7 @@
 const bcrypt = require('bcryptjs');
 const  uuid  = require('uuid');
+const { ApolloError } = require('apollo-server');
+
 const resolvers = {
   Query: {
       async user (root, { id }, { models }) {
@@ -46,26 +48,34 @@ const resolvers = {
         password: await bcrypt.hash(password, 10)
       })
     },
-    async subscribeNotificcations(root, { email, dAppUuid, selectedNotifications }, { models }) {
-     
-      const [user, created] = await models.User.findOrCreate({
-        raw: true,
-        where: { email },
-        defaults: {
-          uuid: uuid.v1()
-        }
-      });
-      const records = selectedNotifications.map(notification => {
-        return {
-          uuid: uuid.v1(),
-          userUuid: user.uuid,
-          dAppUuid: dAppUuid,
-          notificationsUuid: notification
-        }
-      });
-      const options = { returning: true };
-      const userNotifications = await models.UserNotifications.bulkCreate(records, options);
-      return userNotifications;
+    async subscribeNotifications(root, { email, dAppUuid, selectedNotifications }, { models }) {
+      try {
+        const [user, created] = await models.User.findOrCreate({
+          raw: true,
+          where: { email },
+          defaults: {
+            uuid: uuid.v4()
+          }
+        });
+        const records = selectedNotifications.map(notification => {
+          return {
+            uuid: uuid.v4(),
+            userUuid: user.uuid,
+            dAppUuid: dAppUuid,
+            notificationsUuid: notification
+          }
+        });
+
+        const options = { returning: true };
+        const userNotifications = await models.UserNotifications.bulkCreate(records, options);
+        return userNotifications;
+      } catch (error) {
+        throw new ApolloError(
+          "Create User Notification Error",
+          "CREATE_USER_NOTIFICATION_ERROR",
+        );
+      }
+
     }, 
     async testEmail(root, { to, apiKey, domain }, { emailUtil }) {
       const testData = {

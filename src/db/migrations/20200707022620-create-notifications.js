@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.UUID,
         primaryKey: true,
-        defaultValue: Sequelize.UUIDV1
+        defaultValue: Sequelize.UUIDV4
       },
       d_app_uuid: {
         allowNull: false,
@@ -34,6 +34,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Notifications');
+    await queryInterface.dropTable('notifications');
   }
 };

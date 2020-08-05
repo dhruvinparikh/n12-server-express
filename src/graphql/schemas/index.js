@@ -40,7 +40,7 @@ const typeDefs = gql`
   }
   type Mutation {
     createUser(email: String!): User!
-    subscribeNotificcations(email : String!,dAppUuid: String!,selectedNotifications:[String!]): [UserNotifications]
+    subscribeNotifications(email : String!,dAppUuid: String!,selectedNotifications:[String!]): [UserNotifications]
     testEmail(to: String, apiKey: String, domain: String): Boolean!
   }
 `

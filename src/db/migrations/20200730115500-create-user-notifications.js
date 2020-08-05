@@ -6,7 +6,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.UUID,
         primaryKey: true,
-        defaultValue: Sequelize.UUIDV1
       },
       user_uuid: {
         allowNull: false,          

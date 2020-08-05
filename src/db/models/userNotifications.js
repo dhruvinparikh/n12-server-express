@@ -40,6 +40,13 @@ module.exports = (sequelize, DataTypes) => {
     underscored: true,
     sequelize,
     modelName: 'UserNotifications',
+    indexes: [
+      // Create a unique index on email
+      {
+        unique: true,
+        fields: ['user_uuid', 'd_app_uuid']
+      }
+    ]
   });
     
   UserNotifications.associate = (models) =>{
