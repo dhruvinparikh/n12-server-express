@@ -2,11 +2,9 @@ const { gql } = require('apollo-server')
 
 const typeDefs = gql`
   type User {
-    id: Int!
-    name: String!
+    uuid: String!
     email: String!
   }
-
   type DApps {
     uuid: String!
     name: String!
@@ -14,16 +12,23 @@ const typeDefs = gql`
     logoUrl: String!
     Notifications: [Notifications!]
   }
-
   type Notifications {
     uuid: String!
     dAppUuid: String!
     name: String!
     shortDescription: String!
     longDescription: String!
-    DApps: [DApps!]
+    DApps: DApps!
   }
-
+  type UserNotifications {
+    uuid: String
+    userUuid: String
+    dAppUuid: String
+    notificationsUuid: String,
+    Notification: Notifications!
+    DApp: DApps!
+    User: User!
+  }
   type Query {
     user(id: Int!): User
     allDApps: [DApps!]!
@@ -31,10 +36,12 @@ const typeDefs = gql`
     dApps(uuid: String!): DApps
     allNotifications: [Notifications!]!
     notifcations(uuid: String!): Notifications
+    getUserSubscriptions(userUuid: String!, dAppUuid: String!): [UserNotifications]
   }
-
   type Mutation {
-    createUser(name: String!, email: String!, password: String!): User!
+    createUser(email: String!): User!
+    subscribeNotifications(email : String!,dAppUuid: String!,selectedNotifications:[String!]): [UserNotifications]
+    testEmail(to: String, apiKey: String, domain: String): Boolean!
   }
 `
 

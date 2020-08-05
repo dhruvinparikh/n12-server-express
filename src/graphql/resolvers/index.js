@@ -1,9 +1,11 @@
 const bcrypt = require('bcryptjs');
+const  uuid  = require('uuid');
+const { ApolloError } = require('apollo-server');
 
 const resolvers = {
   Query: {
       async user (root, { id }, { models }) {
-        return models.User.findById(id)
+        return models.User.findByPk(id)
       },
       async allDApps (root, args, { models }) {
         return models.DApps.findAll();
@@ -29,7 +31,12 @@ const resolvers = {
         return models.Notifications.findAll()
       },
       async notifcations (root, { uuid }, { models }) {
-        return models.Notifications.findById(uuid)
+        return models.Notifications.findByPk(uuid)
+      },
+      async getUserSubscriptions(root, { userUuid, dAppUuid }, { models }) {
+        return models.UserNotifications.findAll({
+          where: { userUuid, dAppUuid }
+        });
       }      
     },
 
@@ -40,6 +47,66 @@ const resolvers = {
         email,
         password: await bcrypt.hash(password, 10)
       })
+    },
+    async subscribeNotifications(root, { email, dAppUuid, selectedNotifications }, { models, emailUtil }) {
+      try {
+        const [user, created] = await models.User.findOrCreate({
+          raw: true,
+          where: { email },
+          defaults: {
+            uuid: uuid.v4()
+          }
+        });
+        const records = selectedNotifications.map(notification => {
+          return {
+            uuid: uuid.v4(),
+            userUuid: user.uuid,
+            dAppUuid: dAppUuid,
+            notificationsUuid: notification
+          }
+        });
+
+        const options = { returning: true };
+        const userNotifications = await models.UserNotifications.bulkCreate(records, options);
+        const confirmEmailData = await emailUtil.createConfirmEmailData(dAppUuid, selectedNotifications, user);
+        await emailUtil.sendEmail(confirmEmailData);
+        return userNotifications;
+      } catch (error) {
+        throw new ApolloError(
+          "Create User Notification Error",
+          "CREATE_USER_NOTIFICATION_ERROR",
+        );
+      }
+
+    }, 
+    async testEmail(root, { to, apiKey, domain }, { emailUtil }) {
+      const testData = {
+        to,
+        subject: 'TEST',
+        text: 'Testing some Mailgun emails!',
+        template: "test",
+        'h:X-Mailgun-Variables': JSON.stringify({
+          "dAppLogo": "https://s2.coinmarketcap.com/static/img/coins/64x64/1518.png",
+          "dAppName": "MakerDAO",
+          "notifications": [
+            {
+              "name": "Name 3",
+              "shortDesc": "description for Name 3"
+            },
+            {
+              "name": "Name 4",
+              "shortDesc": "description for Name 4"
+            },
+            {
+              "name": "Name 5",
+              "shortDesc": "description for Name 5"
+            }
+          ],
+          "unsubLink": "#"
+        })
+      };
+      await emailUtil.sendEmail(testData, { apiKey, domain });
+      return true;
     }
   },
 
@@ -47,7 +114,6 @@ const resolvers = {
     Notifications : async (dapp, args, {dataloader} ) =>  {    
       console.log(`fetching dapp ${dapp.uuid}`)
       const result = dataloader.notificationsLoader.load(dapp.uuid);
-      // dataloader.notificationsLoader.clear(dapp.uuid);
       return result;
     }
   },
@@ -55,9 +121,19 @@ const resolvers = {
     DApps : async (notification, args, {models, dataloader}) => {
       console.log(`fetching notification ${notification.dAppUuid}`);
       const result = dataloader.dappsLoader.load(notification.dAppUuid);
-      // dataloader.dappsLoader.clear(notification.dAppUuid);
       return result;
     }
+  },
+  UserNotifications: {
+    DApp: async (userNotifications, args, { models }) => {
+      return models.DApps.findByPk(userNotifications.dAppUuid);
+    },
+    Notification: async (userNotifications, args, { models }) => {
+      return models.Notifications.findByPk(userNotifications.notificationsUuid);
+    },
+    User: (userNotifications, args, { models }) => {
+      return models.User.findByPk(userNotifications.userUuid);
+    },
   }
 }
 

@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.UUID,
         primaryKey: true,
-        defaultValue: Sequelize.UUIDV1
+        defaultValue: Sequelize.UUIDV4
       },
       name: {
         type: Sequelize.STRING
@@ -28,6 +28,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('DApps');
+    await queryInterface.dropTable('dapps');
   }
 };
