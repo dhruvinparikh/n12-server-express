@@ -1,18 +1,18 @@
 
 const convict = require("convict");
 
-const contractSchema = convict({
+const apiSchema = convict({
   N12WebUrl: {
     doc: "url of N12 web",
     format: "String",
-    default: null,
+    default: "http://localhost:4000",
     env: "N12_WEB_URL",
   }
 });
 
 const getN12WebUrl = () => {
   try {
-    const result = contractSchema.get('N12WebUrl');
+    const result = apiSchema.get("N12WebUrl");
     return result;
   } catch (error) {
     throw Error("Missing N12WebUrl");
@@ -20,6 +20,6 @@ const getN12WebUrl = () => {
 };
 
 module.exports = {
-  ...contractSchema,
+  ...apiSchema,
   getN12WebUrl
 };

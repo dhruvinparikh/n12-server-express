@@ -1,4 +1,3 @@
-const bcrypt = require('bcryptjs');
 const  uuid  = require('uuid');
 const { ApolloError } = require('apollo-server');
 
@@ -41,13 +40,6 @@ const resolvers = {
     },
 
   Mutation: {
-    async createUser (root, { name, email, password }, { models }) {
-      return models.User.create({
-        name,
-        email,
-        password: await bcrypt.hash(password, 10)
-      })
-    },
     async subscribeNotifications(root, { email, dAppUuid, selectedNotifications }, { models, emailUtil }) {
       try {
         const [user, created] = await models.User.findOrCreate({
@@ -112,14 +104,14 @@ const resolvers = {
 
   DApps: {
     Notifications : async (dapp, args, {dataloader} ) =>  {    
-      console.log(`fetching dapp ${dapp.uuid}`)
+      // console.log(`fetching dapp ${dapp.uuid}`)
       const result = dataloader.notificationsLoader.load(dapp.uuid);
       return result;
     }
   },
   Notifications: {
     DApps : async (notification, args, {models, dataloader}) => {
-      console.log(`fetching notification ${notification.dAppUuid}`);
+      // console.log(`fetching notification ${notification.dAppUuid}`);
       const result = dataloader.dappsLoader.load(notification.dAppUuid);
       return result;
     }

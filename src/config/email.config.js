@@ -1,7 +1,7 @@
 
 const convict = require("convict");
 
-const contractSchema = convict({
+const emailSchema = convict({
   MailGunAPIKey: {
     doc: "mailgun api key",
     format: "String",
@@ -23,14 +23,14 @@ const contractSchema = convict({
   ConfirmationEmailTemplate: {
     doc: "template id of confirmation email in mailgun",
     format: "String",
-    default: null,
+    default: "n12-notification-subscribed",
     env: "CONFIRMATION_EMAIL_TEMPLATE"
   }
 });
 
 const getMailGunAPIKey = () => {
   try {
-    const result = contractSchema.get('MailGunAPIKey');
+    const result = emailSchema.get("MailGunAPIKey");
     return result;
   } catch (error) {
     throw Error("Missing APIKey");
@@ -39,7 +39,7 @@ const getMailGunAPIKey = () => {
 
 const getMailGunDomain = () => {
   try {
-    const result = contractSchema.get('MailGunDomain');
+    const result = emailSchema.get("MailGunDomain");
     return result;
   } catch (error) {
     throw Error("Missing domain");
@@ -48,7 +48,7 @@ const getMailGunDomain = () => {
 
 const getConfirmationEmailTemplate = () => {
   try {
-    const result = contractSchema.get('ConfirmationEmailTemplate');
+    const result = emailSchema.get("ConfirmationEmailTemplate");
     return result;
   } catch (error) {
     throw Error("Missing ConfirmationEmailTemplate");
@@ -58,7 +58,7 @@ const getConfirmationEmailTemplate = () => {
 
 const getEmailFrom = () => {
   try {
-    const result = contractSchema.get('EmailFrom');
+    const result = emailSchema.get("EmailFrom");
     return result;
   } catch (error) {
     throw Error("Missing EmailFrom");
@@ -66,7 +66,7 @@ const getEmailFrom = () => {
 };
 
 module.exports = {
-  ...contractSchema,
+  ...emailSchema,
   getMailGunAPIKey,
   getMailGunDomain,
   getEmailFrom,
