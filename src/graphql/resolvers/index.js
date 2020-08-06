@@ -32,9 +32,9 @@ const resolvers = {
       async notifcations (root, { uuid }, { models }) {
         return models.Notifications.findByPk(uuid)
       },
-      async getUserSubscriptions(root, { userUuid, dAppUuid }, { models }) {
+      async getUserSubscriptions(root, { userUuid }, { models }) {
         return models.UserNotifications.findAll({
-          where: { userUuid, dAppUuid }
+          where: { userUuid }
         });
       }      
     },
@@ -60,8 +60,8 @@ const resolvers = {
 
         const options = { returning: true, updateOnDuplicate: ['user_uuid', 'd_app_uuid','notifications_uuid'] };
         const userNotifications = await models.UserNotifications.bulkCreate(records, options);
-        const confirmEmailData = await emailUtil.createConfirmEmailData(dAppUuid, selectedNotifications, user);
-        await emailUtil.sendEmail(confirmEmailData);
+        // const confirmEmailData = await emailUtil.createConfirmEmailData(dAppUuid, selectedNotifications, user);
+        // await emailUtil.sendEmail(confirmEmailData);
         return userNotifications;
       } catch (error) {
         throw new ApolloError(
