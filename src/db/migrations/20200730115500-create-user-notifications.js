@@ -8,15 +8,12 @@ module.exports = {
         },
       user_uuid: {
         type: Sequelize.UUID,
-        primaryKey: true
         },
       d_app_uuid: {
         type: Sequelize.UUID,
-        primaryKey: true
         },
       notifications_uuid: {
         type: Sequelize.UUID,
-        primaryKey: true
       },
       created_at: {
         allowNull: false,
