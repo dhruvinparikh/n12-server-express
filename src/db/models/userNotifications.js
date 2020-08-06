@@ -37,6 +37,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     tableName: 'user_notifications',
     underscored: true,
+    timestamps: true,
+    paranoid: true,
+    deletedAt: 'deleted_at',
     sequelize,
     modelName: 'UserNotifications',
     indexes: [

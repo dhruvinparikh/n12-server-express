@@ -71,6 +71,10 @@ const resolvers = {
       }
 
     }, 
+    async unsubscribeNotifications(root, { userNotifications }, { models }) {
+      await models.UserNotifications.destroy({ where: { uuid: userNotifications } });
+      return true;
+    },
     async testEmail(root, { to, apiKey, domain }, { emailUtil }) {
       const testData = {
         to,
