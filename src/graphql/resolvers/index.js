@@ -32,7 +32,7 @@ const resolvers = {
       async notifcations (root, { uuid }, { models }) {
         return models.Notifications.findByPk(uuid)
       },
-      async getUserSubscriptions(root, { userUuid }, { models }) {
+      async UserSubscriptions(root, { userUuid }, { models }) {
         return models.UserNotifications.findAll({
           where: { userUuid }
         });

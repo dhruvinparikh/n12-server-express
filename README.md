@@ -11,3 +11,8 @@
 ./node_modules/.bin/runmigration --migrations-path ./src/db/migrations --models-path ./src/db/models/
 ```
 
+#### Run undo migration
+
+```bash
+./node_modules/.bin/runmigration --migrations-path ./src/db/migrations --models-path ./src/db/models/
+```
