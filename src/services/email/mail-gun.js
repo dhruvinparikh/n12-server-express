@@ -20,7 +20,7 @@ const createConfirmEmailData = async (dAppUuid, notificationUuids, user) => {
     dAppLogo: dApp.logoUrl,
     dAppName: dApp.name,
     notifications: [],
-    unsubLink: `${api.getN12WebUrl()}/manage-subscription/${user.uuid}/${dApp.uuid}`
+    unsubLink: `${api.getN12WebUrl()}/manage-subscription/${user.uuid}`
   };
 
   notifications.forEach(notif => {

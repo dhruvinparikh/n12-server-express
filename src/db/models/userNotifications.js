@@ -17,34 +17,36 @@ module.exports = (sequelize, DataTypes) => {
   UserNotifications.init({
     uuid: {
       type: DataTypes.UUID, 
-      primaryKey: true, 
       allowNull: false
       },
     userUuid: {
       type: DataTypes.UUID, 
-      allowNull: false,
+      primaryKey: true,
       field:"user_uuid"   
       },
     dAppUuid: {
       type: DataTypes.UUID, 
-      allowNull: false,
+      primaryKey: true,
       field:"d_app_uuid"      
       },
     notificationsUuid: {
       type: DataTypes.UUID, 
-      allowNull: false,
+      primaryKey: true, 
       field:"notifications_uuid" 
     }
   }, {
     tableName: 'user_notifications',
     underscored: true,
+    timestamps: true,
+    paranoid: true,
+    deletedAt: 'deleted_at',
     sequelize,
     modelName: 'UserNotifications',
     indexes: [
       // Create a unique index on email
       {
         unique: true,
-        fields: ['user_uuid', 'd_app_uuid']
+        fields: ['user_uuid', 'd_app_uuid','notifications_uuid']
       }
     ]
   });
