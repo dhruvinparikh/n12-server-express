@@ -1,5 +1,8 @@
+const config = require("./config")
 const server = require("./graphql");
 
-server
-  .listen()
-  .then(({ url }) => console.log('Server is running on localhost:4000'))
+const port = config.api.getPort();
+
+server.listen(port).then(({ url }) => {
+  console.log(`🚀 Server ready at ${url}`);
+});

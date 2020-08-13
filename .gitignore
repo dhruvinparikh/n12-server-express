@@ -16,4 +16,11 @@ docker-compose.override.yml
 # Lock files
 yarn.lock
 package-lock.json
+
+# Environment files
 .env
+.env.prod
+.env.local
+
+# APP Engine file
+app.yaml

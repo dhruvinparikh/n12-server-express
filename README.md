@@ -2,7 +2,6 @@
 
 ## Description
 
-
 ### Auto migration
 
 #### Run auto migration
@@ -11,8 +10,17 @@
 ./node_modules/.bin/runmigration --migrations-path ./src/db/migrations --models-path ./src/db/models/
 ```
 
-#### Run undo migration
-
+#### Run migrations
 ```bash
-./node_modules/.bin/runmigration --migrations-path ./src/db/migrations --models-path ./src/db/models/
+./node_modules/.bin/sequelize-cli db:migrate --migrations-path ./src/db/migrations --config ./src/db/config/config.js 
+```
+
+#### Run undo migrations
+```bash
+./node_modules/.bin/sequelize-cli db:migrate:undo:all --migrations-path ./src/db/migrations --config ./src/db/config/config.js 
+```
+
+#### Run dev
+```
+yarn run start-dev
 ```

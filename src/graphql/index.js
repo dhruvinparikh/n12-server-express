@@ -5,6 +5,7 @@ const models = require('../db/models');
 const emailUtil = require('../services/email/mail-gun');
 const createLoader = require('./dataloaders');
 const { Op } = require("sequelize");
+const config = require('../config');
 
 const server = new ApolloServer({
   cors: true, 
@@ -16,7 +17,9 @@ const server = new ApolloServer({
     return {
       models, Op, dataloader, emailUtil
     }
-  }
+  },
+  introspection: config.apollo.getIntrospection(),
+  playground: config.apollo.getPlayground(),
 })
 // server.applyMiddleware()
 
