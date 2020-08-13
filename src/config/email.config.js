@@ -17,14 +17,14 @@ const emailSchema = convict({
   EmailFrom: {
     doc: "Email sender name and address",
     format: "String",
-    default: null,
-    env: "EMAIL_FROM",
+    default: "info@blockxlabs.com",
+    env: "MAIL_GUN_EMAIL_FROM",
   },
   ConfirmationEmailTemplate: {
     doc: "template id of confirmation email in mailgun",
     format: "String",
     default: "n12-notification-subscribed",
-    env: "CONFIRMATION_EMAIL_TEMPLATE"
+    env: "MAIL_GUN_CONFIRMATION_EMAIL_TEMPLATE"
   }
 });
 

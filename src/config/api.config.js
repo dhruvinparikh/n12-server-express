@@ -7,6 +7,12 @@ const apiSchema = convict({
     format: "String",
     default: "http://localhost:4000",
     env: "N12_WEB_URL",
+  },
+  servicePort: {
+    doc: "service port number",
+    format: "port",
+    default: 4000,
+    env: "PORT",
   }
 });
 
@@ -19,7 +25,17 @@ const getN12WebUrl = () => {
   }
 };
 
+const getPort = () => {
+  try {
+    const result = apiSchema.get("servicePort");
+    return result;
+  } catch (error) {
+    throw Error("Missing port");
+  }
+};
+
 module.exports = {
   ...apiSchema,
-  getN12WebUrl
+  getN12WebUrl,
+  getPort
 };
